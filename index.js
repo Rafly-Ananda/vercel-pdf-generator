@@ -29,16 +29,18 @@ app.get("/api", async (req, res) => {
     await page.goto(req.query.url, {
       waitUntil: "networkidle0",
     });
-    const buffer = await page.pdf({ format: "a4" });
-    console.log("PDF Saved");
+    // const buffer = await page.pdf({ format: "a4" });
+    // console.log("PDF Saved");
+    const pageTitle = await page.title();
     res
       .send({
         message: "PDF Generated",
-        s3Url: `https://gadjah-ticketing-platform.s3.ap-southeast-1.amazonaws.com/${req.query.bookingId}.pdf`,
+        // s3Url: `https://gadjah-ticketing-platform.s3.ap-southeast-1.amazonaws.com/${req.query.bookingId}.pdf`,
+        pageTitle: pageTitle,
       })
       .status(200);
   } catch (err) {
-    console.error(err);
+    res.send({ message: "Request Failedeszc", error: err });
     return null;
   }
 });
