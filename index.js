@@ -35,7 +35,7 @@ app.get("/api", async (req, res) => {
     const buffer = await page.pdf({ format: "a4" });
 
     await axios.post(`${process.env.S3_UPLOADER_SERVER}/api`, {
-      bookingId,
+      bookingId: req.query.bookingId,
       buffer,
     });
 
