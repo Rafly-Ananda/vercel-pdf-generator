@@ -1,4 +1,6 @@
 const app = require("express")();
+const axios = require("axios");
+// require('dotenv').config()
 
 let chrome = {};
 let puppeteer;
@@ -30,8 +32,12 @@ app.get("/api", async (req, res) => {
       waitUntil: "networkidle0",
     });
     const buffer = await page.pdf({ format: "a4" });
-    console.log("PDF Saved");
-    const pageTitle = await page.title();
+
+    await axios.post(`${process.env.S3_UPLOADER_SERVER}/api`, {
+      bookingId,
+      buffer,
+    });
+
     res
       .send({
         message: "PDF Generated",
@@ -49,3 +55,7 @@ app.listen(process.env.PORT || 3000, () => {
 });
 
 module.exports = app;
+
+// TODO: TEST LG DI YG VERSI 16
+// TODO: Benerin logic tambah axios di project in kalo yg atas bener ga jalan
+// TODO: deploy yg s3 uploader
