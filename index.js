@@ -13,6 +13,7 @@ if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
 }
 
 app.get("/api", async (req, res) => {
+  console.log("IN");
   let options = {};
 
   if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
